@@ -1,0 +1,57 @@
+[
+  {
+    "name": "KPI 1: High-risk zones correctly prioritised (Precision@K)",
+    "definition": "Of top-5 zones ranked by flood probability, fraction that truly flood",
+    "formula": "(# true floods in top-5) / 5",
+    "method": "Rank test set by predicted probability, take top K=5, compute fraction with true Flood=1.",
+    "target": ">= 0.80 (80%)",
+    "target_value": 0.8,
+    "actual_value": 1.0,
+    "pass_fail": "PASS",
+    "interpretation": "Top-5 ranked test locations contain 100.0% true floods; emergency triage is well prioritised."
+  },
+  {
+    "name": "KPI 2: Recall (high-risk class)",
+    "definition": "Of all flood events in the test set, how many did the model correctly identify?",
+    "formula": "Recall = TP / (TP + FN)",
+    "method": "Test set, final model at tuned threshold.",
+    "target": ">= 0.85",
+    "target_value": 0.85,
+    "actual_value": 0.9313725490196079,
+    "pass_fail": "PASS",
+    "interpretation": "Model catches 93.1% of floods; missed-flood risk is within tolerance."
+  },
+  {
+    "name": "KPI 3: F1-score (high-risk class)",
+    "definition": "Harmonic mean of precision and recall, balancing false alarms and missed events.",
+    "formula": "F1 = 2 * (Precision * Recall) / (Precision + Recall)",
+    "method": "Test set, final model at tuned threshold.",
+    "target": ">= 0.75",
+    "target_value": 0.75,
+    "actual_value": 0.8665008291873963,
+    "pass_fail": "PASS",
+    "interpretation": "F1=0.867 with precision=0.810, recall=0.931; balance of alarms vs misses is acceptable."
+  },
+  {
+    "name": "KPI 4: Data completeness after preprocessing",
+    "definition": "Percentage of non-null cells in the processed feature set.",
+    "formula": "(1 - missing_cells / total_cells) x 100",
+    "method": "Computed on processed features.",
+    "target": "100%",
+    "target_value": 100.0,
+    "actual_value": 100.0,
+    "pass_fail": "PASS",
+    "interpretation": "0 missing of 140000 cells."
+  },
+  {
+    "name": "KPI 5: Prediction response time",
+    "definition": "Average time (ms) to preprocess one location and generate a flood probability.",
+    "formula": "total_time_for_200_single_row_predictions / 200",
+    "method": "Timed batch of 200 single-row predictions (raw input -> probability).",
+    "target": "<= 200 ms",
+    "target_value": 200.0,
+    "actual_value": 4.475619792938232,
+    "pass_fail": "PASS",
+    "interpretation": "Average 4.48 ms per location; suitable for real-time triage."
+  }
+]
